@@ -57,10 +57,12 @@ sequenceDiagram
 |------------------------|-------------------|--------------|------------------------------------|
 | Router                 | `192.168.1.1`     | Network      |                                    |
 | Proxmox host           | `192.168.1.100`   | Physical     |                                    |
+| Proxmox host 2         | `192.168.1.102`   | Physical     | Hosts k8s control plane 2          |
 | NFS VM                 | `192.168.1.110`   | VM           | Persistent storage for everything  |
 | Static / Misc VM       | `192.168.1.130`   | VM           | Minecraft + Docker workloads       |
 | Build Server           | `192.168.1.131`   | LXC container| GitHub Actions runners             |
 | k8s control plane      | `192.168.1.120`   | VM           |                                    |
+| k8s control plane 2    | `192.168.1.123`   | VM           | On Proxmox host 2, HA              |
 | k8s worker node 1      | `192.168.1.121`   | VM           |                                    |
 | k8s worker node 2      | `192.168.1.122`   | VM           |                                    |
 | Docker Registry        | —                 | k8s workload | Runs in cluster, exposed via Traefik |

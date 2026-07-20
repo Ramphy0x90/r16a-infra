@@ -15,14 +15,15 @@
 | Role       | All VMs, LXC containers, k8s cluster, storage  |
 | Status     | Production                                     |
 
-### Server 2 (planned)
+### Server 2 (active)
 
 | Property   | Value                                                       |
 |------------|-------------------------------------------------------------|
-| Hypervisor | Proxmox VE (to be configured)                               |
-| Role       | Backups + additional k8s worker nodes                       |
-| Status     | Not yet configured                                          |
-| Notes      | Will join Proxmox cluster for live migration and VM HA      |
+| IP         | `192.168.1.102`                                             |
+| Hypervisor | Proxmox VE                                                  |
+| Role       | k8s control plane HA node                                   |
+| Status     | Production                                                  |
+| Notes      | Joined Proxmox cluster; hosts second k8s control plane VM   |
 
 ---
 
@@ -31,6 +32,7 @@
 ```mermaid
 graph TD
     PVE[Proxmox VE<br>192.168.1.100]
+    PVE2[Proxmox VE<br>192.168.1.102]
 
     PVE --> NFS[VM — NFS Server<br>192.168.1.110]
     PVE --> Static[VM — Static / Misc<br>192.168.1.130]
@@ -38,6 +40,7 @@ graph TD
     PVE --> CP[VM — k8s Control Plane<br>192.168.1.120]
     PVE --> W1[VM — k8s Worker Node 1<br>192.168.1.121]
     PVE --> W2[VM — k8s Worker Node 2<br>192.168.1.122]
+    PVE2 --> CP2[VM — k8s Control Plane 2<br>192.168.1.123]
 ```
 
 ---
@@ -99,6 +102,19 @@ graph TD
 | Purpose    | Kubernetes control plane                                          |
 | Components | kube-apiserver, etcd, kube-scheduler, kube-controller-manager     |
 | Notes      | Single control plane — no HA yet... maybe one day if AI stops eating RAM lol |
+
+---
+
+### k8s Control Plane 2 VM
+
+| Property   | Value                                                             |
+|------------|-------------------------------------------------------------------|
+| IP         | `192.168.1.123`                                                   |
+| Type       | VM                                                                 |
+| Host       | Server 2 (`192.168.1.102`)                                         |
+| Purpose    | Kubernetes control plane (HA)                                      |
+| Components | kube-apiserver, etcd, kube-scheduler, kube-controller-manager     |
+| Notes      | Second control plane node — joined for HA alongside `192.168.1.120`|
 
 ---
 
