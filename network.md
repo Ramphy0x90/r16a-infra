@@ -65,6 +65,8 @@ sequenceDiagram
 | k8s control plane 2    | `192.168.1.123`   | VM           | On Proxmox host 2, HA              |
 | k8s worker node 1      | `192.168.1.121`   | VM           |                                    |
 | k8s worker node 2      | `192.168.1.122`   | VM           |                                    |
+| k8s worker node 3      | `192.168.1.124`   | VM           | On Proxmox host 2                  |
+| k8s worker node 4      | `192.168.1.125`   | VM           | On Proxmox host 2                  |
 | Docker Registry        | —                 | k8s workload | Runs in cluster, exposed via Traefik |
 
 ---

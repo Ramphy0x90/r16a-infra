@@ -1,6 +1,6 @@
 # R16a infrastructure
 
-> Last updated: 2026-07-20  
+> Last updated: 2026-07-22  
 > Status: Living document — update as infrastructure changes
 
 Personal homelab running on two physical servers with Proxmox as the hypervisor. All services run as VMs or LXC containers. A Kubernetes cluster handles all HTTP/S workloads behind Traefik ingress. Static VM workloads integrate into the cluster via k8s Endpoint services so everything is routed through Traefik — Minecraft is the only true exception.
@@ -65,11 +65,17 @@ graph TD
 
     subgraph Proxmox2 ["Proxmox — Server 2 (192.168.1.102)"]
         CP2[Control Plane 2<br>192.168.1.123]
+        W3[Worker Node 3<br>192.168.1.124]
+        W4[Worker Node 4<br>192.168.1.125]
     end
 
     CP --- CP2
     CP2 --> W1
     CP2 --> W2
+    CP --> W3
+    CP --> W4
+    CP2 --> W3
+    CP2 --> W4
 
     Router -->|:80 :443| Traefik
     Router -->|:25565| StaticVM

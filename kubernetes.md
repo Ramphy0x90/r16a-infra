@@ -10,7 +10,7 @@
 |--------------------|------------------------------------------|
 | Distribution       | kubeadm             |
 | Version            | TBD                                      |
-| Nodes              | 2 control plane (HA) + 2 workers         |
+| Nodes              | 2 control plane (HA) + 4 workers         |
 | CNI                | Calico        |
 | Ingress            | Traefik (IngressRoute CRDs)              |
 | TLS                | Let's Encrypt via Traefik ACME — active  |
@@ -27,12 +27,18 @@ graph TD
     CP2[Control Plane 2<br>192.168.1.123<br>kube-apiserver · etcd · scheduler]
     W1[Worker Node 1<br>192.168.1.121<br>kubelet · kube-proxy]
     W2[Worker Node 2<br>192.168.1.122<br>kubelet · kube-proxy]
+    W3[Worker Node 3<br>192.168.1.124<br>kubelet · kube-proxy]
+    W4[Worker Node 4<br>192.168.1.125<br>kubelet · kube-proxy]
 
     CP --- CP2
     CP --> W1
     CP --> W2
+    CP --> W3
+    CP --> W4
     CP2 --> W1
     CP2 --> W2
+    CP2 --> W3
+    CP2 --> W4
 ```
 
 ---
