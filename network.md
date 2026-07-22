@@ -38,6 +38,18 @@ sequenceDiagram
 | `grafana.r16a.cloud`    | Grafana              | Username/password + Authentik SSO | Cluster monitoring             |
 | `auth.r16a.cloud`       | Authentik            | Self                        | -                |
 | `registry.r16a.cloud`   | Docker Registry      | htpasswd (basic auth)       | Private image registry               |
+| `chat.r16a.cloud`       | Zmey (r16a-chat)     | TBD                         | Synapse + r16a-web                   |
+
+---
+
+## External domains
+
+Domains registered separately from `r16a.cloud`, both routed to the same Zmey deployment.
+
+| Domain      | Purpose                          | Notes                              |
+|-------------|-----------------------------------|-------------------------------------|
+| `zmey.chat` | Official website for Zmey         | Primary public-facing domain        |
+| `zmey.ch`   | Redundancy                         | -                                   |
 
 ---
 

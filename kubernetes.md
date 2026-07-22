@@ -61,11 +61,14 @@ graph LR
 
     subgraph apps ["Applications"]
         NS_C[r16a-cloud<br>Frontend · Backend]
+        NS_CH[r16a-chat<br>Zmey — Synapse · r16a-web]
     end
 
     NS_DB --> NS_C
     NS_R --> NS_C
     NS_A --> NS_C
+    NS_DB --> NS_CH
+    NS_R --> NS_CH
 ```
 
 ### Namespace reference
@@ -73,6 +76,7 @@ graph LR
 | Namespace        | Contents                                              | Notes                                      |
 |------------------|-------------------------------------------------------|--------------------------------------------|
 | `r16a-cloud`     | r16a-cloud frontend (Angular), backend (Spring Boot)  |                                            |
+| `r16a-chat`      | Zmey — Synapse (Matrix), r16a-web                     | Internal name is Zmey; still in development |
 | `r16a-databases` | MySQL, PostgreSQL, Redis                              | Shared data layer for all apps             |
 | `r16a-registry`  | Docker Registry v2                                    | Private image registry, NFS-backed         |
 | `cert-manager`   | cert-manager                                          | TLS certificate management for Traefik     |
