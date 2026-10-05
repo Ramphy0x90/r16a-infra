@@ -1,0 +1,6 @@
+---
+- name: LDAP auth via Authentik SSSD
+  hosts: all
+  become: true
+  roles:
+    - sssd

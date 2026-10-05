@@ -1,0 +1,24 @@
+127.0.0.1   localhost
+127.0.1.1   {{ inventory_hostname }}
+
+::1         localhost ip6-localhost ip6-loopback
+
+# Proxmox hosts
+{% for host in groups['proxmox'] %}
+{{ hostvars[host]['ansible_host'] }}   {{ host }}
+{% endfor %}
+
+# Kubernetes control planes
+{% for host in groups['k8s_control_plane'] %}
+{{ hostvars[host]['ansible_host'] }}   {{ host }}
+{% endfor %}
+
+# Kubernetes workers
+{% for host in groups['k8s_workers'] %}
+{{ hostvars[host]['ansible_host'] }}   {{ host }}
+{% endfor %}
+
+# Infrastructure
+{% for host in groups['nfs'] %}
+{{ hostvars[host]['ansible_host'] }}   {{ host }}
+{% endfor %}

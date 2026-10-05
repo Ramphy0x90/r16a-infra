@@ -1,0 +1,7 @@
+---
+- name: Configure kubernetes nodes
+  hosts: k8s
+  become: true
+  roles:
+    - swap_disable
+    - k8s_node

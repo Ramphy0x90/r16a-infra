@@ -1,0 +1,30 @@
+---
+- name: Install SSSD packages
+  ansible.builtin.apt:
+    name:
+      - sssd
+      - sssd-ldap
+      - libnss-sss
+      - libpam-sss
+      - oddjob
+      - oddjob-mkhomedir
+    state: present
+
+- name: Deploy sssd.conf
+  ansible.builtin.template:
+    src: sssd.conf.j2
+    dest: /etc/sssd/sssd.conf
+    owner: root
+    group: root
+    mode: "0600"
+  notify: restart sssd
+
+- name: Configure PAM to use SSSD
+  ansible.builtin.command: pam-auth-update --enable mkhomedir --force
+  changed_when: false
+
+- name: Ensure SSSD is enabled and running
+  ansible.builtin.systemd:
+    name: sssd
+    enabled: true
+    state: started

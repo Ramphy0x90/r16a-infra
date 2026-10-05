@@ -1,0 +1,23 @@
+[sssd]
+services = nss, pam
+config_file_version = 2
+domains = r16a
+
+[domain/r16a]
+id_provider = ldap
+auth_provider = ldap
+
+ldap_uri = {{ ldap_uri }}
+ldap_search_base = {{ ldap_search_base }}
+
+ldap_default_bind_dn = {{ ldap_bind_dn }}
+ldap_default_authtok_type = password
+ldap_default_authtok = {{ ldap_bind_password }}
+
+ldap_user_search_base = ou=users,{{ ldap_search_base }}
+ldap_group_search_base = ou=groups,{{ ldap_search_base }}
+
+ldap_tls_reqcert = never
+
+cache_credentials = true
+enumerate = false

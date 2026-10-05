@@ -1,0 +1,6 @@
+---
+- name: Configure hosts and install packages
+  hosts: all
+  become: true
+  roles:
+    - common

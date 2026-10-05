@@ -1,0 +1,21 @@
+---
+timezone: Europe/Zurich
+
+ntp_servers:
+  - 0.ch.pool.ntp.org
+  - 1.ch.pool.ntp.org
+
+common_packages:
+  - curl
+  - vim
+  - htop
+  - git
+  - net-tools
+  - iputils-ping
+  - rsync
+  - neofetch
+  - unattended-upgrades
+
+ldap_uri: ldap://192.168.1.120
+ldap_search_base: dc=ldap,dc=goauthentik,dc=io
+ldap_bind_dn: "cn=ldapservice,ou=users,dc=ldap,dc=goauthentik,dc=io"

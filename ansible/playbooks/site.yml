@@ -1,0 +1,4 @@
+---
+- import_playbook: baseline.yml
+- import_playbook: k8s_nodes.yml
+- import_playbook: ldap_auth.yml

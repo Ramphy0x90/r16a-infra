@@ -1,0 +1,25 @@
+---
+- name: Load required kernel modules
+  community.general.modprobe:
+    name: "{{ item }}"
+    state: present
+  loop: "{{ k8s_kernel_modules }}"
+
+- name: Persist kernel modules across reboots
+  ansible.builtin.copy:
+    dest: /etc/modules-load.d/k8s.conf
+    content: |
+      {% for mod in k8s_kernel_modules %}
+      {{ mod }}
+      {% endfor %}
+    owner: root
+    group: root
+    mode: "0644"
+
+- name: Apply sysctl settings
+  ansible.posix.sysctl:
+    name: "{{ item.key }}"
+    value: "{{ item.value }}"
+    sysctl_file: /etc/sysctl.d/99-k8s.conf
+    reload: true
+  loop: "{{ k8s_sysctl | dict2items }}"
