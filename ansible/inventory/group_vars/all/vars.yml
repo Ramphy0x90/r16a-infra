@@ -13,7 +13,6 @@ common_packages:
   - net-tools
   - iputils-ping
   - rsync
-  - neofetch
   - unattended-upgrades
 
 ldap_uri: ldap://192.168.1.120
