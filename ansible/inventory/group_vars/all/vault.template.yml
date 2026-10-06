@@ -1,0 +1,5 @@
+# ansible-vault encrypt inventory/group_vars/all/vault.yml
+# used for sudo user in VMs
+ansible_become_password: "password123"
+# LDAP service account pass
+ldap_bind_password: "password123"
