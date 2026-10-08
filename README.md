@@ -1,6 +1,6 @@
 # R16a infrastructure
 
-> Last updated: 2026-07-22  
+> Last updated: 2026-10-09  
 > Status: Living document — update as infrastructure changes
 
 Personal homelab running on two physical servers with Proxmox as the hypervisor. All services run as VMs or LXC containers. A Kubernetes cluster handles all HTTP/S workloads behind Traefik ingress. Static VM workloads integrate into the cluster via k8s Endpoint services so everything is routed through Traefik — Minecraft is the only true exception.
@@ -84,6 +84,26 @@ graph TD
     NFS -->|NFS PVC| K8S
     StaticVM -->|Endpoints| K8S
 ```
+
+---
+
+## Identity & Authentication
+
+All VMs authenticate centrally via [Authentik](https://goauthentik.io/) as the identity provider. SSSD is deployed on every VM via Ansible and connects to an Authentik LDAP outpost running on the Kubernetes cluster.
+
+```
+SSH login → SSSD → LDAP outpost (Authentik) → user lookup + auth
+```
+
+| Component         | Detail                                                        |
+| ----------------- | ------------------------------------------------------------- |
+| Identity provider | Authentik (self-hosted on k8s, namespace `r16a-authentik`)    |
+| Protocol          | LDAP via Authentik LDAP outpost                               |
+| LDAP base DN      | `dc=ldap,dc=goauthentik,dc=io`                                |
+| User search base  | `ou=users,dc=ldap,dc=goauthentik,dc=io`                       |
+| SSSD schema       | `rfc2307bis` (Authentik uses `user`/`group` object classes)   |
+| Deployment        | Ansible role `sssd`, applied to all hosts via `ldap_auth.yml` |
+| Outpost exposure  | NodePort 30389 (temporary — MetalLB LoadBalancer IP planned)  |
 
 ---
 
