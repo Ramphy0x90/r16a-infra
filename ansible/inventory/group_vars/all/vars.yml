@@ -17,4 +17,4 @@ common_packages:
 
 ldap_uri: ldap://192.168.1.120:30389
 ldap_search_base: dc=ldap,dc=goauthentik,dc=io
-ldap_bind_dn: "cn=sssd_service_usr,ou=serviceUsers,dc=ldap,dc=goauthentik,dc=io"
+ldap_bind_dn: "cn=sssd_service_usr,ou=users,dc=ldap,dc=goauthentik,dc=io"
