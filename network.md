@@ -24,7 +24,7 @@ sequenceDiagram
     B->>CF: DNS lookup → public IP (orange-cloud)
     B->>CF: HTTPS request (TLS termination at edge)
     CF->>R: Forward to home IP :443
-    R->>T: Port forward → Traefik NodePort
+    R->>T: Port forward → Traefik LoadBalancer (192.168.1.201)
     T->>S: Route by hostname → ClusterIP → Pod
 ```
 
@@ -57,8 +57,8 @@ Domains registered separately from `r16a.cloud`, both routed to the same Zmey de
 
 | External port | Protocol | Internal destination              | Purpose                          |
 |---------------|----------|-----------------------------------|----------------------------------|
-| 80            | TCP      | Traefik NodePort (worker nodes)   | HTTP — redirects to HTTPS        |
-| 443           | TCP      | Traefik NodePort (worker nodes)   | HTTPS ingress for all k8s apps   |
+| 80            | TCP      | Traefik LoadBalancer `192.168.1.201:80`   | HTTP — redirects to HTTPS        |
+| 443           | TCP      | Traefik LoadBalancer `192.168.1.201:443`  | HTTPS ingress for all k8s apps   |
 | 25565         | TCP      | Static VM `192.168.1.130`         | Minecraft Java Edition           |
 
 ---
@@ -80,6 +80,9 @@ Domains registered separately from `r16a.cloud`, both routed to the same Zmey de
 | k8s worker node 3      | `192.168.1.124`   | VM           | On Proxmox host 2                  |
 | k8s worker node 4      | `192.168.1.125`   | VM           | On Proxmox host 2                  |
 | Docker Registry        | —                 | k8s workload | Runs in cluster, exposed via Traefik |
+| MetalLB pool           | `192.168.1.200-220` | Reserved   | LoadBalancer IPs for k8s services    |
+| Traefik (LoadBalancer) | `192.168.1.201`   | k8s workload | Ingress controller external IP       |
+| Authentik LDAP outpost | `192.168.1.200`   | k8s workload | LDAP for VM authentication via SSSD  |
 
 ---
 

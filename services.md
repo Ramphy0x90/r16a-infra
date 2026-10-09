@@ -40,12 +40,23 @@ graph TD
 
 ## Authentik — Identity provider
 
-| Property        | Value                                          |
-| --------------- | ---------------------------------------------- |
-| URL             | `https://auth.r16a.cloud`                      |
-| Namespace       | `r16a-authentik`                               |
-| Purpose         | SSO / identity provider, easy authentication   |
-| Integrated with | r16a-cloud (forward auth), Grafana (SSO login) |
+| Property        | Value                                                              |
+| --------------- | ------------------------------------------------------------------ |
+| URL             | `https://auth.r16a.cloud`                                          |
+| Namespace       | `r16a-authentik`                                                   |
+| Purpose         | SSO / identity provider, centralized authentication                |
+| Integrated with | r16a-cloud (forward auth), Grafana (SSO login), all VMs (LDAP/SSSD) |
+
+### LDAP outpost
+
+| Property      | Value                                                        |
+| ------------- | ------------------------------------------------------------ |
+| Type          | Authentik LDAP outpost                                       |
+| External IP   | `192.168.1.200` (MetalLB LoadBalancer)                       |
+| Port          | `389` (LDAP)                                                 |
+| Base DN       | `dc=ldap,dc=goauthentik,dc=io`                               |
+| Purpose       | Centralized VM authentication — all VMs use SSSD to auth via this outpost |
+| SSSD schema   | `rfc2307bis` (`user`/`group` object classes, username in `cn`) |
 
 ---
 

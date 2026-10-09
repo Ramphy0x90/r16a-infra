@@ -14,7 +14,7 @@
 | CNI                | Calico        |
 | Ingress            | Traefik (IngressRoute CRDs)              |
 | TLS                | Let's Encrypt via Traefik ACME — active  |
-| Load balancer      | None — NodePort direct (MetalLB planned) |
+| Load balancer      | MetalLB (L2 mode) — pool `192.168.1.200-220` |
 | Persistent storage | NFS VM (`192.168.1.110`) via PVCs        |
 
 ---
@@ -96,14 +96,14 @@ graph LR
 | TLS            | Let's Encrypt ACME — real certs, active            |
 | Challenge type | HTTP-01 |
 | Entry points   | `:80` (redirect to HTTPS), `:443` (TLS)            |
-| Exposed via    | NodePort on worker nodes                           |
+| Exposed via    | LoadBalancer — MetalLB IP `192.168.1.201`          |
 
 ### Traffic flow
 
 ```mermaid
 flowchart LR
     CF[Cloudflare<br>edge] -->|:443| R[Router<br>port forward]
-    R --> T[Traefik<br>NodePort]
+    R --> T[Traefik<br>LoadBalancer 192.168.1.201]
     T -->|IngressRoute| SVC[k8s Service]
     SVC --> Pod[Pod]
     T -->|Endpoints| EXT[Static VM<br>192.168.1.130]
