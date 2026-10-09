@@ -49,7 +49,8 @@ Domains registered separately from `r16a.cloud`, both routed to the same Zmey de
 | Domain      | Purpose                          | Notes                              |
 |-------------|-----------------------------------|-------------------------------------|
 | `zmey.chat` | Official website for Zmey         | Primary public-facing domain        |
-| `zmey.ch`   | Redundancy                         | -                                   |
+| `zmey.ch`   | Redundancy                        | -                                   |
+| `domovoi.cloud` | Cloud storage        | Replacement of cloud.r16a.cloud      |
 
 ---
 
