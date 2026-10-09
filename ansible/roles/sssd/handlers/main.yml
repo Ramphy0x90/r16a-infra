@@ -1,4 +1,10 @@
 ---
+- name: flush sssd cache
+  ansible.builtin.shell: |
+    systemctl stop sssd
+    rm -rf /var/lib/sss/db/*
+  listen: flush sssd cache
+ 
 - name: restart sssd
   ansible.builtin.systemd:
     name: sssd

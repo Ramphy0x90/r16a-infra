@@ -4,6 +4,7 @@
     name:
       - sssd
       - sssd-ldap
+      - sssd-tools
       - libnss-sss
       - libpam-sss
       - oddjob
@@ -17,7 +18,9 @@
     owner: root
     group: root
     mode: "0600"
-  notify: restart sssd
+  notify:
+    - flush sssd cache
+    - restart sssd
 
 - name: Configure PAM to use SSSD
   ansible.builtin.command: pam-auth-update --enable mkhomedir --force
