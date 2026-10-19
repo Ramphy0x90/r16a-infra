@@ -25,6 +25,18 @@
 | Status     | Production                                                |
 | Notes      | Joined Proxmox cluster; hosts second k8s control plane VM |
 
+### Station 0 (active)
+
+| Property | Value                                                                                  |
+| -------- | -------------------------------------------------------------------------------------- |
+| Name     | `r16a-station-00`                                                                      |
+| IP       | `192.168.1.140`                                                                        |
+| Hardware | Lenovo ThinkStation P3 Ultra SFF — i7-13700K, 32GB RAM, 512GB NVMe                     |
+| OS       | Ubuntu 22.04 LTS (bare metal, no hypervisor)                                           |
+| Role     | SOC + AI inference workstation                                                         |
+| Status   | Production                                                                             |
+| Notes    | Not a VM — bare metal workstation. Wazuh SOC stack + Ollama AI inference. GPU planned. |
+
 ---
 
 ## Proxmox inventory
@@ -163,3 +175,23 @@ graph TD
 | Host       | Server 2 (`192.168.1.102`) |
 | Purpose    | Kubernetes worker          |
 | Components | IDk                        |
+
+---
+
+## Bare metal workstations
+
+### r16a-station-00
+
+| Property  | Value                                                                      |
+| --------- | -------------------------------------------------------------------------- |
+| IP        | `192.168.1.140`                                                            |
+| Hardware  | Lenovo ThinkStation P3 Ultra SFF                                           |
+| CPU       | Intel Core i7-13700K                                                       |
+| RAM       | 32GB DDR5 SO-DIMM 4800MHz (2 slots free — upgradeable to 96GB)             |
+| Storage   | 512GB NVMe                                                                 |
+| Network   | 2x RJ45 (1GbE)                                                             |
+| OS        | Ubuntu 22.04.4 LTS (bare metal, no hypervisor)                             |
+| Role      | SOC + AI inference                                                         |
+| Workloads | Wazuh (SIEM/SOC stack), Ollama (local LLM inference)                       |
+| Planned   | Low-profile discrete GPU for faster inference                              |
+| Notes     | Not managed by Proxmox. Provisioned via Ansible (`playbooks/station.yml`). |

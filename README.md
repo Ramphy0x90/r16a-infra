@@ -1,9 +1,9 @@
 # R16a infrastructure
 
-> Last updated: 2026-10-09  
+> Last updated: 2026-10-19  
 > Status: Living document — update as infrastructure changes
 
-Personal homelab running on two physical servers with Proxmox as the hypervisor. All services run as VMs or LXC containers. A Kubernetes cluster handles all HTTP/S workloads behind Traefik ingress. Static VM workloads integrate into the cluster via k8s Endpoint services so everything is routed through Traefik — Minecraft is the only true exception.
+Personal homelab running on two physical servers with Proxmox as the hypervisor, plus a bare metal workstation dedicated to SOC and AI inference. All services run as VMs or LXC containers. A Kubernetes cluster handles all HTTP/S workloads behind Traefik ingress. Static VM workloads integrate into the cluster via k8s Endpoint services so everything is routed through Traefik — Minecraft is the only true exception.
 
 ---
 
@@ -23,14 +23,14 @@ Personal homelab running on two physical servers with Proxmox as the hypervisor.
 
 ## Documentation
 
-| File                             | Contents                                         |
-| -------------------------------- | ------------------------------------------------ |
-| [network.md](./network.md)       | DNS, domains, port forwarding, LAN IPs           |
-| [servers.md](./servers.md)       | Physical servers, Proxmox VMs and LXC containers |
-| [kubernetes.md](./kubernetes.md) | Cluster info, namespaces, Traefik, storage       |
-| [services.md](./services.md)     | All deployed applications and services           |
-| [storage.md](./storage.md)       | NFS server, PVCs, backup strategy                |
-| [cicd.md](./cicd.md)             | Build server, GitHub Actions, registry, pipeline |
+| File                             | Contents                                                               |
+| -------------------------------- | ---------------------------------------------------------------------- |
+| [network.md](./network.md)       | DNS, domains, port forwarding, LAN IPs                                 |
+| [servers.md](./servers.md)       | Physical servers, Proxmox VMs, LXC containers, bare metal workstations |
+| [kubernetes.md](./kubernetes.md) | Cluster info, namespaces, Traefik, storage                             |
+| [services.md](./services.md)     | All deployed applications and services                                 |
+| [storage.md](./storage.md)       | NFS server, PVCs, backup strategy                                      |
+| [cicd.md](./cicd.md)             | Build server, GitHub Actions, registry, pipeline                       |
 
 ---
 
@@ -69,6 +69,8 @@ graph TD
         W4[Worker Node 4<br>192.168.1.125]
     end
 
+    Station[r16a-station-00<br>192.168.1.140<br>Wazuh SOC + Ollama AI]
+
     CP --- CP2
     CP2 --> W1
     CP2 --> W2
@@ -92,7 +94,7 @@ graph TD
 All VMs authenticate centrally via [Authentik](https://goauthentik.io/) as the identity provider. SSSD is deployed on every VM via Ansible and connects to an Authentik LDAP outpost running on the Kubernetes cluster.
 
 ```
-SSH login → SSSD → LDAP outpost (Authentik) → user lookup + auth
+SSH login → PAM → SSSD → LDAP outpost (Authentik) → user lookup + auth
 ```
 
 | Component         | Detail                                                        |
