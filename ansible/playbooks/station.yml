@@ -1,0 +1,7 @@
+---
+- name: Provision station (SOC / AI workstation)
+  hosts: stations
+  become: true
+  roles:
+      - common
+      - station

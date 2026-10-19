@@ -1,0 +1,6 @@
+---
+# Packages installed on all stations on top of common_packages
+station_packages:
+    - docker.io
+    - docker-compose-v2
+    - python3-pip

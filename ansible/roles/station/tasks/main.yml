@@ -1,0 +1,6 @@
+---
+- name: Install station packages
+  ansible.builtin.apt:
+      name: "{{ station_packages }}"
+      state: present
+      update_cache: true

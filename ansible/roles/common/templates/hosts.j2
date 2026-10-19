@@ -22,3 +22,8 @@
 {% for host in groups['nfs'] %}
 {{ hostvars[host]['ansible_host'] }}   {{ host }}
 {% endfor %}
+
+# Stations
+{% for host in groups['stations'] %}
+{{ hostvars[host]['ansible_host'] }}   {{ host }}
+{% endfor %}
