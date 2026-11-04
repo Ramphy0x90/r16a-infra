@@ -1,6 +1,6 @@
 # R16a infrastructure
 
-> Last updated: 2026-10-19  
+> Last updated: 2026-11-04  
 > Status: Living document — update as infrastructure changes
 
 Personal homelab running on two physical servers with Proxmox as the hypervisor, plus a bare metal workstation dedicated to SOC and AI inference. All services run as VMs or LXC containers. A Kubernetes cluster handles all HTTP/S workloads behind Traefik ingress. Static VM workloads integrate into the cluster via k8s Endpoint services so everything is routed through Traefik — Minecraft is the only true exception.
@@ -49,6 +49,7 @@ graph TD
 
     subgraph Proxmox ["Proxmox — Server 1 (192.168.1.100)"]
         NFS[NFS Server VM<br>192.168.1.110]
+        Garage0[garage-00 VM<br>192.168.1.111]
         StaticVM[Static / Misc VM<br>192.168.1.130<br>Minecraft]
         BuildLXC[Build Server LXC<br>192.168.1.131<br>GitHub Actions runners]
 
@@ -64,6 +65,7 @@ graph TD
     end
 
     subgraph Proxmox2 ["Proxmox — Server 2 (192.168.1.102)"]
+        Garage1[garage-01 VM<br>192.168.1.112]
         CP2[Control Plane 2<br>192.168.1.123]
         W3[Worker Node 3<br>192.168.1.124]
         W4[Worker Node 4<br>192.168.1.125]

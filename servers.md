@@ -47,11 +47,13 @@ graph TD
     PVE2[Proxmox VE<br>192.168.1.102]
 
     PVE --> NFS[VM — NFS Server<br>192.168.1.110]
+    PVE --> Garage0[VM — garage-00<br>192.168.1.111]
     PVE --> Static[VM — Static / Misc<br>192.168.1.130]
     PVE --> Build[LXC — Build Server<br>192.168.1.131]
     PVE --> CP[VM — k8s Control Plane<br>192.168.1.120]
     PVE --> W1[VM — k8s Worker Node 1<br>192.168.1.121]
     PVE --> W2[VM — k8s Worker Node 2<br>192.168.1.122]
+    PVE2 --> Garage1[VM — garage-01<br>192.168.1.112]
     PVE2 --> CP2[VM — k8s Control Plane 2<br>192.168.1.123]
     PVE2 --> W3[VM — k8s Worker Node 3<br>192.168.1.124]
     PVE2 --> W4[VM — k8s Worker Node 4<br>192.168.1.125]
@@ -71,6 +73,21 @@ graph TD
 | Protocol  | NFS                                                                                                     |
 | Consumers | k8s PVCs (all stateful workloads), direct app mounts                                                    |
 | Notes     | Single point of failure for all stateful data. Highest backup priority. See [storage.md](./storage.md). |
+
+---
+
+### Garage Storage VMs
+
+| Property | `garage-00`                  | `garage-01`                  |
+| -------- | ---------------------------- | ---------------------------- |
+| IP       | `192.168.1.111`              | `192.168.1.112`              |
+| Type     | VM                           | VM                           |
+| Host     | svr-00 (`192.168.1.100`)     | svr-01 (`192.168.1.102`)     |
+| Storage  | 100GB NVMe (`local-lvm`)     | 100GB NVMe (`local-lvm`)     |
+| RAM      | 2GB                          | 2GB                          |
+| vCPU     | 2                            | 2                            |
+| OS       | Ubuntu 22.04                 | Ubuntu 22.04                 |
+| Purpose  | Garage object storage node   | Garage object storage node   |
 
 ---
 

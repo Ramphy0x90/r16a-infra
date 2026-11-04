@@ -72,6 +72,8 @@ Domains registered separately from `r16a.cloud`, both routed to the same Zmey de
 | Proxmox host           | `192.168.1.100`   | Physical     |                                    |
 | Proxmox host 2         | `192.168.1.102`   | Physical     | Hosts k8s control plane 2          |
 | NFS VM                 | `192.168.1.110`   | VM           | Persistent storage for everything  |
+| garage-00              | `192.168.1.111`   | VM           | Garage object storage node         |
+| garage-01              | `192.168.1.112`   | VM           | Garage object storage node         |
 | Static / Misc VM       | `192.168.1.130`   | VM           | Minecraft + Docker workloads       |
 | Build Server           | `192.168.1.131`   | LXC container| GitHub Actions runners             |
 | k8s control plane      | `192.168.1.120`   | VM           |                                    |
