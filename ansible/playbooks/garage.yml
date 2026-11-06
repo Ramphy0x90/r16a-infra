@@ -1,0 +1,7 @@
+---
+- name: Provision Garage object storage nodes
+  hosts: garage
+  become: true
+  roles:
+      - common
+      - garage

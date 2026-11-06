@@ -1,0 +1,62 @@
+---
+- name: Create garage group
+  ansible.builtin.group:
+    name: garage
+    system: true
+
+- name: Create garage user
+  ansible.builtin.user:
+    name: garage
+    group: garage
+    system: true
+    shell: /usr/sbin/nologin
+    home: /var/lib/garage
+    create_home: false
+
+- name: Create garage directories
+  ansible.builtin.file:
+    path: "{{ item }}"
+    state: directory
+    owner: garage
+    group: garage
+    mode: "0750"
+  loop:
+    - /etc/garage
+    - /var/lib/garage
+    - /var/lib/garage/data
+    - /var/lib/garage/meta
+
+- name: Download garage binary
+  ansible.builtin.get_url:
+    url: "https://garagehq.deuxfleurs.fr/_releases/{{ garage_version }}/x86_64-unknown-linux-musl/garage"
+    dest: /usr/local/bin/garage
+    mode: "0755"
+    owner: root
+    group: root
+
+- name: Deploy garage config
+  ansible.builtin.template:
+    src: garage.toml.j2
+    dest: /etc/garage/garage.toml
+    owner: garage
+    group: garage
+    mode: "0640"
+  notify: Restart garage
+
+- name: Deploy garage systemd service
+  ansible.builtin.template:
+    src: garage.service.j2
+    dest: /etc/systemd/system/garage.service
+    owner: root
+    group: root
+    mode: "0644"
+  notify:
+    - Reload systemd
+    - Restart garage
+
+- name: Enable and start garage
+  ansible.builtin.systemd:
+    name: garage
+    enabled: true
+    state: started
+    daemon_reload: true

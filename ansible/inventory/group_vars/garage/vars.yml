@@ -1,0 +1,5 @@
+---
+garage_version: "v1.0.1"
+garage_region: "garage"
+garage_domain: "r16a.internal"
+# garage_rpc_secret must be set in vault.yml — generate with: openssl rand -hex 32
